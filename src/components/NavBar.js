@@ -22,7 +22,7 @@ const MyComponent = ({navigation, back}) => {
   return (
     <Appbar.Header>
       { back ? <Appbar.BackAction onPress={navigation.goBack}/> : null }
-      <Appbar.Content title="Dub's Doubles"/>
+      <Appbar.Content title="Dub's Doubles" onPress={() => navigation.navigate('Home')}/>
       {/* <Appbar.Action icon="magnify" onPress={_handleSearch} /> */}
       {/* <Appbar.Action icon="dots-vertical" onPress={_handleMore} /> */}
       <Menu

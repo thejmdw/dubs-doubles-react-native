@@ -11,6 +11,7 @@ import { BurgerScreen } from "./src/components/BurgerScreen";
 import { FriesScreen } from './src/components/FriesScreen';
 import NavBar from "./src/components/NavBar"
 import { Provider as PaperProvider } from 'react-native-paper';
+import { BurgerProvider } from './src/components/providers/BurgerProvider';
 // export const App = () => {
 //   <>
 //     <Router>
@@ -18,23 +19,26 @@ import { Provider as PaperProvider } from 'react-native-paper';
 //     </Router>  
 //   </>
 // }
-// const Stack = createNativeStackNavigator()
-const Stack = createStackNavigator()
+const Stack = createNativeStackNavigator()
+// const Stack = createStackNavigator()
 
 export default function App() {
   return (
     <PaperProvider>
+    <BurgerProvider>
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Home"
         screenOptions={{
           header: (props) => <NavBar {...props} />
         }}>
-        <Stack.Screen name="Home" component={HomeScreen} options={{title: `Dub's Doubles`}}/>
+        <Stack.Screen name="Home" component={HomeScreen} 
+                      options={{title: `Dub's Doubles`}}/>
         <Stack.Screen name="Burgers" component={BurgerScreen} />
         <Stack.Screen name="Fries" component={FriesScreen} />
       </Stack.Navigator>
     </NavigationContainer>
+    </BurgerProvider>
     </PaperProvider>
   );
 }
