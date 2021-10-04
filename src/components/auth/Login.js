@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useRef } from "react"
 import { View } from 'react-native'
 import { Link, useHistory } from "react-router-native"
 import * as SecureStore from 'expo-secure-store';
@@ -20,11 +20,13 @@ async function getValueFor(key) {
 }  
 
 export const Login = ({ navigation }) => {
-    const email = React.createRef()
-    const password = React.createRef()
-    const invalidDialog = React.createRef()
-    const history = useHistory()
+    // const email = useRef()
+    // const password = useRef()
+    const invalidDialog = useRef()
+    // const history = useHistory()
     const [ error, setError ] = useState(false)
+    const [ email, setEmail ] = useState('')
+    const [ password, setPassword ] = useState('')
 
     const handleLogin = (e) => {
         e.preventDefault()
@@ -36,15 +38,16 @@ export const Login = ({ navigation }) => {
                 "Accept": "application/json"
             },
             body: JSON.stringify({
-                username: email.current.value,
-                password: password.current.value
+                username: email,
+                password: password
             })
         })
             .then(res => res.json())
             .then(res => {
                 if ("valid" in res && res.valid && "token" in res) {
                     save( "dd_token", res.token )
-                    save( "is_staff", res.is_staff )
+                    save( "is_staff", res.is_staff.toString() )
+                    console.log(getValueFor("dd_token"))
                     // res.is_staff === true ? navigation.navigate('Home') : navigation.navigate('Home')
                 }
                 else {
@@ -68,7 +71,7 @@ export const Login = ({ navigation }) => {
                     {/* </div> */}
                     {/* <fieldset> */}
                     <TextInput 
-                        ref={email}
+                        // ref={email}
                         name="email"
                         id="outlined-helperText"
                         label="E-Mail"
@@ -78,12 +81,13 @@ export const Login = ({ navigation }) => {
                         error={error}
                         helperText={error ? 'Invalid Email or Password' : ' '}
                         onChange={() => {setError(false)}}
-                        
+                        onChangeText={email => setEmail(email)}
+                        // onSubmitEditing={handleLogin}
                     />
                     {/* </fieldset>
                     <fieldset> */}
                     <TextInput
-                        ref={password}
+                        // ref={password}
                         name="password"
                         textContentType="password"
                         id="outlined-helperText"
@@ -93,6 +97,8 @@ export const Login = ({ navigation }) => {
                         error={error}
                         helperText={error ? 'Invalid Email or Password' : ' '}
                         onChange={() => {setError(false)}}
+                        onChangeText={pass => setPassword(pass)}
+                        // onSubmitEditing={handleLogin}
                     />
                     {/* </fieldset> */}
                         <Button variant="contained" className="btn btn-1 btn-sep icon-send" onPress={handleLogin}>Sign In</Button>
