@@ -36,7 +36,7 @@ export const HomeScreen = ({ navigation }) => {
     </Card.Content>
     <Card.Cover source={{ uri: 'https://dubs-doubles.herokuapp.com/media/products/965a93d9-a8d7-42c3-b491-03e888e1a6bf.jpg' }} />
     <Card.Actions>
-    <Button mode="contained">
+    <Button mode="contained" onPress={() => navigation.navigate('Burgers')}>
       Burgers
     </Button>
     </Card.Actions>

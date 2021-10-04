@@ -1,11 +1,25 @@
 import React, { useState } from "react"
+import { View } from 'react-native'
 import { Link, useHistory } from "react-router-native"
+import * as SecureStore from 'expo-secure-store';
+import { TextInput, Title, Text, Button } from 'react-native-paper'
 // import "./Auth.css"
 // import TextField from '@mui/material/TextField';
 // import Button from '@mui/material/Button';
+async function save(key, value) {
+    await SecureStore.setItemAsync(key, value);
+  }
 
+async function getValueFor(key) {
+    let result = await SecureStore.getItemAsync(key);
+    if (result) {
+        alert("🔐 Here's your value 🔐 \n" + result);
+    } else {
+        alert('No values stored under that key.');
+    }
+}  
 
-export const Login = props => {
+export const Login = ({ navigation }) => {
     const email = React.createRef()
     const password = React.createRef()
     const invalidDialog = React.createRef()
@@ -15,7 +29,7 @@ export const Login = props => {
     const handleLogin = (e) => {
         e.preventDefault()
 
-        return fetch("http://127.0.0.1:8000/login", {
+        return fetch("https://dubs-doubles.herokuapp.com/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -29,9 +43,9 @@ export const Login = props => {
             .then(res => res.json())
             .then(res => {
                 if ("valid" in res && res.valid && "token" in res) {
-                    localStorage.setItem( "dd_token", res.token )
-                    localStorage.setItem( "is_staff", res.is_staff )
-                    res.is_staff === true ? history.push("/admin") : history.push("/")
+                    save( "dd_token", res.token )
+                    save( "is_staff", res.is_staff )
+                    // res.is_staff === true ? navigation.navigate('Home') : navigation.navigate('Home')
                 }
                 else {
                     setError(true)
@@ -41,50 +55,52 @@ export const Login = props => {
     }
 
     return (
-        <main style={{ textAlign: "center" }} className="loginCard__container">
+        <View style={{ textAlign: "center" }} className="loginCard__container">
             {/* <dialog className="dialog dialog--auth" ref={invalidDialog}>
                 <div>Email or password was not valid.</div>
                 <Button variant="contained" className="button--close" onClick={e => invalidDialog.current.close()}>Close</Button>
             </dialog> */}
             {/* <section> */}
-                <form className="form--login loginCard" onSubmit={handleLogin}>
-                    <div className="loginTitle">
-                    <h2>Dub's Doubles</h2>
-                    <h3>Please sign in</h3>
-                    </div>
-                    <fieldset>
-                    <TextField 
-                        inputRef={email}
+                {/* <form className="form--login loginCard" onSubmit={handleLogin}>
+                    <div className="loginTitle"> */}
+                    <Title>Dub's Doubles</Title>
+                    <Text>Please sign in</Text>
+                    {/* </div> */}
+                    {/* <fieldset> */}
+                    <TextInput 
+                        ref={email}
                         name="email"
                         id="outlined-helperText"
                         label="E-Mail"
                         fullWidth
                         type="email"
+                        mode="outlined"
                         error={error}
                         helperText={error ? 'Invalid Email or Password' : ' '}
                         onChange={() => {setError(false)}}
                         
                     />
-                    </fieldset>
-                    <fieldset>
-                    <TextField
-                        inputRef={password}
+                    {/* </fieldset>
+                    <fieldset> */}
+                    <TextInput
+                        ref={password}
                         name="password"
-                        type="password"
+                        textContentType="password"
                         id="outlined-helperText"
                         label="Password"
+                        mode="outlined"
                         fullWidth
                         error={error}
                         helperText={error ? 'Invalid Email or Password' : ' '}
                         onChange={() => {setError(false)}}
                     />
-                    </fieldset>
-                        <Button variant="contained" className="btn btn-1 btn-sep icon-send" type="submit">Sign In</Button>
+                    {/* </fieldset> */}
+                        <Button variant="contained" className="btn btn-1 btn-sep icon-send" onPress={handleLogin}>Sign In</Button>
                     
-                </form>
-            <section className="link--register">
-                <Link to="/register">Not a member yet?</Link>
-            </section>
-        </main>
+                {/* </form>
+            <section className="link--register"> */}
+                {/* <Link to="/register">Not a member yet?</Link> */}
+            {/* </section> */}
+        </View>
     )
 }
