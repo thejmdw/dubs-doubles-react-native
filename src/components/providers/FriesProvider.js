@@ -15,8 +15,14 @@ async function getToken(key) {
 export const FriesProvider = (props) => {
     const [ fries, setFries ] = useState([])
     const [ fry, setFry ] = useState({})
+    const [ token, setToken ] = useState("")
 
     const createFry = (fry) => {
+        const handleSetToken = async () => {
+            SecureStore.getItemAsync("dd_token")
+            .then(token => setToken(token))
+        }
+        handleSetToken()
         return fetch("https://dubs-doubles.herokuapp.com/products", {
             method: "POST",
             headers:{
@@ -30,6 +36,11 @@ export const FriesProvider = (props) => {
     }
     
     const updateFry = (fry) => {
+        const handleSetToken = async () => {
+            SecureStore.getItemAsync("dd_token")
+            .then(token => setToken(token))
+        }
+        handleSetToken()
         return fetch(`https://dubs-doubles.herokuapp.com/products/${fry.id}`, {
             method: "PUT",
             headers:{
@@ -43,6 +54,11 @@ export const FriesProvider = (props) => {
     }
     
     const getFryById = (id) => {
+        const handleSetToken = async () => {
+            SecureStore.getItemAsync("dd_token")
+            .then(token => setToken(token))
+        }
+        handleSetToken()
         return fetch(`https://dubs-doubles.herokuapp.com/products/${id}`, { 
             headers:{
                 "Authorization": `Token ${getToken("dd_token")}`
@@ -53,6 +69,11 @@ export const FriesProvider = (props) => {
     }
 
     const getFries = () => {
+        const handleSetToken = async () => {
+            SecureStore.getItemAsync("dd_token")
+            .then(token => setToken(token))
+        }
+        handleSetToken()
         return fetch("https://dubs-doubles.herokuapp.com/products?product_type=2", { 
             headers:{
                 // "Authorization": `Token ${getToken("dd_token")}`

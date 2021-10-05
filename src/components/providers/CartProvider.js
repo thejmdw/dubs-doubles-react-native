@@ -1,27 +1,33 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import * as SecureStore from 'expo-secure-store';
+import { LineItemContext } from "./LineItemProvider";
 
 export const CartContext = React.createContext()
 
 async function getToken(key) {
     let result = await SecureStore.getItemAsync(key);
-    if (result) {
-        return result
-    } else {
-        alert('Not logged in');
-    }
+    return result
 }  
 
 export const CartProvider = (props) => {
     const [ carts, setCarts ] = useState([])
     const [ cart, setCart ] = useState({})
+    const [ token, setToken ] = useState("")
+    // const { token } = useContext(LineItemContext)
+    
 
     const createCart = (Cart) => {
+        const handleSetToken = async () => {
+            SecureStore.getItemAsync("dd_token")
+            .then(token => setToken(token))
+        }
+        handleSetToken()
+
         return fetch("https://dubs-doubles.herokuapp.com/products", {
             method: "POST",
             headers:{
                 "Content-Type": "application/json",
-                "Authorization": `Token ${getToken("dd_token")}`
+                "Authorization": `Token ${token}`
             },
             body: JSON.stringify(Cart)
          })
@@ -30,11 +36,17 @@ export const CartProvider = (props) => {
     }
     
     const updateCart = (cart) => {
+        const handleSetToken = async () => {
+            SecureStore.getItemAsync("dd_token")
+            .then(token => setToken(token))
+        }
+        handleSetToken()
+
         return fetch(`https://dubs-doubles.herokuapp.com/orders/${cart.id}`, {
             method: "PUT",
             headers:{
                 "Content-Type": "application/json",
-                "Authorization": `Token ${getToken("dd_token")}`
+                "Authorization": `Token ${token}`
             },
             body: JSON.stringify(cart)
          })
@@ -43,9 +55,15 @@ export const CartProvider = (props) => {
     }
     
     const getCart = () => {
+        const handleSetToken = async () => {
+            SecureStore.getItemAsync("dd_token")
+            .then(token => setToken(token))
+        }
+        handleSetToken()
+
         return fetch(`https://dubs-doubles.herokuapp.com/profile/cart`, { 
             headers:{
-                "Authorization": `Token ${getToken("dd_token")}`
+                "Authorization": `Token ${token}`
             }
         })
             .then(response => response.json())
@@ -53,9 +71,14 @@ export const CartProvider = (props) => {
     }
 
     const getCarts = () => {
+        const handleSetToken = async () => {
+            SecureStore.getItemAsync("dd_token")
+            .then(token => setToken(token))
+        }
+        handleSetToken()
         return fetch("https://dubs-doubles.herokuapp.com/products?product_type=1", { 
             headers:{
-                "Authorization": `Token ${getToken("dd_token")}`
+                "Authorization": `Token ${token}`
             }
         })
             .then(response => response.json())

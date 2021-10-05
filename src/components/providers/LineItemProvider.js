@@ -2,31 +2,42 @@ import React, { useState, useContext } from "react"
 import * as SecureStore from 'expo-secure-store';
 import { CartContext } from "./CartProvider.js"
 
+
 export const LineItemContext = React.createContext()
 
-async function getToken(key) {
-    let result = await SecureStore.getItemAsync(key);
-    if (result) {
-        return result
-    } else {
-        alert('Not logged in');
-    }
-}  
+// async function getToken(key) {
+//     let result = await SecureStore.getItemAsync(key);
+//     if (result) {
+//         return result
+//     } else {
+//         alert('Not logged in');
+//     }
+// }  
 
 export const LineItemProvider = (props) => {
     const [ lineItems, setLineItems ] = useState([])
     const [ lineItem, setLineItem ] = useState({})
     const [ lineItemToppingObjs, setLineItemToppingObjs ] = useState([])
-    const { cart, getCart } = useContext(CartContext)
+    const { getCart } = useContext(CartContext)
+    const [ token, setToken ] = useState("")
 
+    
 
+    // const token = getToken("dd_token")
 
     const createLineItem = (product) => {
+
+        const handleSetToken = async () => {
+            SecureStore.getItemAsync("dd_token")
+            .then(token => setToken(token))
+        }
+        handleSetToken()
+
         return fetch("https://dubs-doubles.herokuapp.com/profile/cart", {
             method: "POST",
             headers:{
                 "Content-Type": "application/json",
-                "Authorization": `Token ${getToken("dd_token")}`
+                "Authorization": `Token ${token}`
             },
             body: JSON.stringify(product)
          })
@@ -35,22 +46,32 @@ export const LineItemProvider = (props) => {
     }
     
     const deleteLineItem = (id) => {
+        const handleSetToken = async () => {
+            SecureStore.getItemAsync("dd_token")
+            .then(token => setToken(token))
+        }
+        handleSetToken()
         return fetch(`https://dubs-doubles.herokuapp.com/lineitems/${id}`, {
             method: "DELETE",
             headers:{
                 "Content-Type": "application/json",
-                "Authorization": `Token ${getToken("dd_token")}`
+                "Authorization": `Token ${token}`
             },
             body: JSON.stringify(id)
          })
             .then(getCart)
     }
     const deleteLineItemTopping = (id) => {
+        const handleSetToken = async () => {
+            SecureStore.getItemAsync("dd_token")
+            .then(token => setToken(token))
+        }
+        handleSetToken()
         return fetch(`https://dubs-doubles.herokuapp.com/lineitemtoppings/${id}`, {
             method: "DELETE",
             headers:{
                 "Content-Type": "application/json",
-                "Authorization": `Token ${getToken("dd_token")}`
+                "Authorization": `Token ${token}`
             },
             body: JSON.stringify(id)
          })
@@ -59,11 +80,16 @@ export const LineItemProvider = (props) => {
     }
     
     const updateLineItem = (LineItem) => {
+        const handleSetToken = async () => {
+            SecureStore.getItemAsync("dd_token")
+            .then(token => setToken(token))
+        }
+        handleSetToken()
         return fetch(`https://dubs-doubles.herokuapp.com/products/${LineItem.id}`, {
             method: "PUT",
             headers:{
                 "Content-Type": "application/json",
-                "Authorization": `Token ${getToken("dd_token")}`
+                "Authorization": `Token ${token}`
             },
             body: JSON.stringify(LineItem)
          })
@@ -72,9 +98,14 @@ export const LineItemProvider = (props) => {
     }
     
     const getLineItemById = (id) => {
+        const handleSetToken = async () => {
+            SecureStore.getItemAsync("dd_token")
+            .then(token => setToken(token))
+        }
+        handleSetToken()
         return fetch(`https://dubs-doubles.herokuapp.com/products/${id}`, { 
             headers:{
-                "Authorization": `Token ${getToken("dd_token")}`
+                "Authorization": `Token ${token}`
             }
         })
             .then(response => response.json())
@@ -82,9 +113,14 @@ export const LineItemProvider = (props) => {
     }
 
     const getLineItems = () => {
+        const handleSetToken = async () => {
+            SecureStore.getItemAsync("dd_token")
+            .then(token => setToken(token))
+        }
+        handleSetToken()
         return fetch("https://dubs-doubles.herokuapp.com/lineitems", { 
             headers:{
-                "Authorization": `Token ${getToken("dd_token")}`
+                "Authorization": `Token ${token}`
             }
         })
             .then(response => response.json())
@@ -92,9 +128,14 @@ export const LineItemProvider = (props) => {
     }
 
     const getLineItemToppings = () => {
+        const handleSetToken = async () => {
+            SecureStore.getItemAsync("dd_token")
+            .then(token => setToken(token))
+        }
+        handleSetToken()
         return fetch("https://dubs-doubles.herokuapp.com/lineitemtoppings", { 
             headers:{
-                "Authorization": `Token ${getToken("dd_token")}`
+                "Authorization": `Token ${token}`
             }
         })
             .then(response => response.json())
