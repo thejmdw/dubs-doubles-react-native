@@ -45,10 +45,10 @@ export const Login = ({ navigation }) => {
             .then(res => res.json())
             .then(res => {
                 if ("valid" in res && res.valid && "token" in res) {
-                    save( "dd_token", res.token )
-                    save( "is_staff", res.is_staff.toString() )
-                    console.log(getValueFor("dd_token"))
-                    // res.is_staff === true ? navigation.navigate('Home') : navigation.navigate('Home')
+                    save( "dd_token", res.token );
+                    save( "is_staff", res.is_staff.toString() );
+                    // getValueFor("is_staff")
+                    res.is_staff === true ? navigation.navigate('Home') : navigation.navigate('Home');
                 }
                 else {
                     setError(true)
@@ -66,8 +66,8 @@ export const Login = ({ navigation }) => {
             {/* <section> */}
                 {/* <form className="form--login loginCard" onSubmit={handleLogin}>
                     <div className="loginTitle"> */}
-                    <Title>Dub's Doubles</Title>
-                    <Text>Please sign in</Text>
+                    {/* <Title>Dub's Doubles</Title>
+                    <Text>Please sign in</Text> */}
                     {/* </div> */}
                     {/* <fieldset> */}
                     <TextInput 
