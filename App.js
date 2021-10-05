@@ -5,14 +5,16 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NativeRouter as Router } from 'react-router-native'
-import { HomeScreen } from './src/components/HomeScreen';
-import { BurgerScreen } from "./src/components/BurgerScreen";
-import { FriesScreen } from './src/components/FriesScreen';
+import { HomeScreen } from './src/components/screens/HomeScreen';
+import { BurgerScreen } from "./src/components/screens/BurgerScreen";
+import { FriesScreen } from './src/components/screens/FriesScreen';
+import { Login } from './src/components/auth/Login';
 import NavBar from "./src/components/NavBar"
 import { Provider as PaperProvider } from 'react-native-paper';
 import { BurgerProvider } from './src/components/providers/BurgerProvider';
 import { FriesProvider } from './src/components/providers/FriesProvider';
-import { Login } from './src/components/auth/Login';
+import { CartProvider } from './src/components/providers/CartProvider';
+import { LineItemProvider } from './src/components/providers/LineItemProvider';
 
 const Stack = createNativeStackNavigator()
 // const Stack = createStackNavigator()
@@ -20,8 +22,10 @@ const Stack = createNativeStackNavigator()
 export default function App() {
   return (
     <PaperProvider>
+    <CartProvider>
     <BurgerProvider>
       <FriesProvider>
+        <LineItemProvider>
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Login"
@@ -35,8 +39,10 @@ export default function App() {
         <Stack.Screen name="Fries" component={FriesScreen} />
       </Stack.Navigator>
     </NavigationContainer>
+    </LineItemProvider>
     </FriesProvider>
     </BurgerProvider>
+    </CartProvider>
     </PaperProvider>
   );
 }

@@ -1,5 +1,14 @@
 import React, { useState } from "react"
+import * as SecureStore from 'expo-secure-store';
 
+async function getToken(key) {
+    let result = await SecureStore.getItemAsync(key);
+    if (result) {
+        return result
+    } else {
+        alert('Not logged in');
+    }
+}
 
 export const BurgerContext = React.createContext()
 
@@ -14,7 +23,7 @@ export const BurgerProvider = (props) => {
             method: "POST",
             headers:{
                 "Content-Type": "application/json",
-                "Authorization": `Token ${localStorage.getItem("dd_token")}`
+                "Authorization": `Token ${getToken("dd_token")}`
             },
             body: JSON.stringify(burger)
          })
@@ -27,7 +36,7 @@ export const BurgerProvider = (props) => {
             method: "PUT",
             headers:{
                 "Content-Type": "application/json",
-                "Authorization": `Token ${localStorage.getItem("dd_token")}`
+                "Authorization": `Token ${getToken("dd_token")}`
             },
             body: JSON.stringify(Burger)
          })
@@ -38,7 +47,7 @@ export const BurgerProvider = (props) => {
     const getBurgerById = (id) => {
         return fetch(`https://dubs-doubles.herokuapp.com/products/${id}`, { 
             headers:{
-                "Authorization": `Token ${localStorage.getItem("dd_token")}`
+                "Authorization": `Token ${getToken("dd_token")}`
             }
         })
             .then(response => response.json())
@@ -48,7 +57,7 @@ export const BurgerProvider = (props) => {
     const getBurgers = () => {
         return fetch("https://dubs-doubles.herokuapp.com/products?product_type=1", { 
             headers:{
-                // "Authorization": `Token ${localStorage.getItem("dd_token")}`
+                // "Authorization": `Token ${getToken("dd_token")}`
             }
         })
             .then(response => response.json())
@@ -58,7 +67,7 @@ export const BurgerProvider = (props) => {
     const getToppingTypes = () => {
         return fetch("https://dubs-doubles.herokuapp.com/toppingtypes", { 
             headers:{
-                "Authorization": `Token ${localStorage.getItem("dd_token")}`
+                "Authorization": `Token ${getToken("dd_token")}`
             }
         })
             .then(response => response.json())
@@ -68,7 +77,7 @@ export const BurgerProvider = (props) => {
     const getToppings = () => {
         return fetch(`https://dubs-doubles.herokuapp.com/toppings`, { 
             headers:{
-                "Authorization": `Token ${localStorage.getItem("dd_token")}`
+                "Authorization": `Token ${getToken("dd_token")}`
             }
         })
             .then(response => response.json())
@@ -77,7 +86,7 @@ export const BurgerProvider = (props) => {
     const getToppingsByType = (id) => {
         return fetch(`https://dubs-doubles.herokuapp.com/toppings?topping_type=${id}`, { 
             headers:{
-                "Authorization": `Token ${localStorage.getItem("dd_token")}`
+                "Authorization": `Token ${getToken("dd_token")}`
             }
         })
             .then(response => response.json())

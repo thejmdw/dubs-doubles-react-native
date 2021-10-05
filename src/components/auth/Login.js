@@ -98,6 +98,7 @@ export const Login = ({ navigation }) => {
                         helperText={error ? 'Invalid Email or Password' : ' '}
                         onChange={() => {setError(false)}}
                         onChangeText={pass => setPassword(pass)}
+                        secureTextEntry={true}
                         // onSubmitEditing={handleLogin}
                     />
                     {/* </fieldset> */}

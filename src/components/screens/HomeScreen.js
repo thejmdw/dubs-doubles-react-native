@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NativeRouter as Router } from 'react-router-native'
 // import { DubsDoubles } from './src/components/DubsDoubles';
-import NavBar from "./NavBar"
+import NavBar from "../NavBar"
 import { Card, Title, Button, Paragraph }from 'react-native-paper';
 // export const App = () => {
 //   <>

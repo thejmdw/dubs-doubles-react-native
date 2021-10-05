@@ -1,7 +1,16 @@
 import React, { useState } from "react"
-
+import * as SecureStore from 'expo-secure-store';
 
 export const FriesContext = React.createContext()
+
+async function getToken(key) {
+    let result = await SecureStore.getItemAsync(key);
+    if (result) {
+        return result
+    } else {
+        alert('Not logged in');
+    }
+}  
 
 export const FriesProvider = (props) => {
     const [ fries, setFries ] = useState([])
@@ -12,7 +21,7 @@ export const FriesProvider = (props) => {
             method: "POST",
             headers:{
                 "Content-Type": "application/json",
-                "Authorization": `Token ${localStorage.getItem("dd_token")}`
+                "Authorization": `Token ${getToken("dd_token")}`
             },
             body: JSON.stringify(fry)
          })
@@ -25,7 +34,7 @@ export const FriesProvider = (props) => {
             method: "PUT",
             headers:{
                 "Content-Type": "application/json",
-                "Authorization": `Token ${localStorage.getItem("dd_token")}`
+                "Authorization": `Token ${getToken("dd_token")}`
             },
             body: JSON.stringify(fry)
          })
@@ -36,7 +45,7 @@ export const FriesProvider = (props) => {
     const getFryById = (id) => {
         return fetch(`https://dubs-doubles.herokuapp.com/products/${id}`, { 
             headers:{
-                "Authorization": `Token ${localStorage.getItem("dd_token")}`
+                "Authorization": `Token ${getToken("dd_token")}`
             }
         })
             .then(response => response.json())
@@ -46,7 +55,7 @@ export const FriesProvider = (props) => {
     const getFries = () => {
         return fetch("https://dubs-doubles.herokuapp.com/products?product_type=2", { 
             headers:{
-                // "Authorization": `Token ${localStorage.getItem("dd_token")}`
+                // "Authorization": `Token ${getToken("dd_token")}`
             }
         })
             .then(response => response.json())
@@ -56,7 +65,7 @@ export const FriesProvider = (props) => {
     // const getfrieTypes = () => {
     //     return fetch("https://dubs-doubles.herokuapp.com/frietypes", { 
     //         headers:{
-    //             "Authorization": `Token ${localStorage.getItem("dd_token")}`
+    //             "Authorization": `Token ${getToken("dd_token")}`
     //         }
     //     })
     //         .then(response => response.json())

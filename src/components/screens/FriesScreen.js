@@ -5,47 +5,44 @@ import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NativeRouter as Router } from 'react-router-native'
-import { BurgerContext } from './providers/BurgerProvider';
+import { FriesContext } from '../providers/FriesProvider';
 import { Card, Button, Title, Paragraph } from 'react-native-paper';
 
-export const BurgerScreen = () => {
-  const { burgers, getBurgers, getBurgerById } = useContext(BurgerContext)
+export const FriesScreen = () => {
+  const { fries, getFries, getFryById } = useContext(FriesContext)
 
   useEffect(() => {
-    getBurgers()
+    getFries()
 }, [])
 
   return (
-    // <BurgerProvider>
+    // <fryProvider>
     <ScrollView>
     {
-                burgers?.map(burger => {
-                    return <Card key={burger.name}>
+                fries?.map(fry => {
+                    return <Card key={fry.name}>
                     <Card.Cover
                       
-                      source={{ uri: burger.image_path}}
-                      alt="burger photo"
+                      source={{ uri: fry.image_path}}
+                      alt="fry photo"
                     />
                     <Card.Content>
                       <Title gutterBottom variant="h5" component="div">
-                        {burger.name}
+                        {fry.name}
                       </Title>
-                      <Paragraph component="div">
-                        {burger.description}
-                      </Paragraph>
                       <Paragraph variant="h6" color="text.secondary">
-                        ${burger.price}
+                        ${fry.price}
                       </Paragraph>
                     </Card.Content>
                     <Card.Actions>
-                      {/* <Button size="large">{burger.price}</Button> */}
-                      { burger.name === "The BYOBurger" ? <Button mode="contained"  onClick={() => {handleBurgerClick(burger.id)}}>Build Burger</Button> : <Button mode="contained" size="large" onClick={() => {handleAddClick(burger.id)}}>Add to Cart</Button>}
+                      {/* <Button size="large">{fry.price}</Button> */}
+                      <Button mode="contained" >Add to Cart</Button>
                     </Card.Actions>
                   </Card>
                 })
             }
     </ScrollView>
-    // </BurgerProvider>
+    // </fryProvider>
   );
 }
 
