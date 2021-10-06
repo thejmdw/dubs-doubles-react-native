@@ -42,7 +42,7 @@ export default function App() {
             <LineItemProvider>
               <NavigationContainer>
               <Stack.Navigator
-                  // initialRouteName="Home"
+                  initialRouteName="Login"
                   screenOptions={{
                     header: (props) => <NavBar {...props} />
                   }}>

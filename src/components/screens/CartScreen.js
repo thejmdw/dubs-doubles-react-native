@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react"
 import { CartContext } from "../providers/CartProvider.js"
 import { LineItemContext } from "../providers/LineItemProvider.js"
+import { DataTable, Button } from "react-native-paper"
 // import { EventContext } from "./EventProvider.js"
 // import { useHistory, useParams } from "react-router-dom"
 // import "./Cart.css"
@@ -17,7 +18,7 @@ import { LineItemContext } from "../providers/LineItemProvider.js"
 // import Paper from '@mui/material/Paper';
 
 export const CartScreen = () => {
-    const history = useHistory()
+    // const history = useHistory()
     const { cart, getCart } = useContext(CartContext)
     const { createLineItem, deleteLineItem, deleteLineItemTopping, lineItemToppingObjs, getLineItemToppings } = useContext(LineItemContext)
     // const { events, getEvents } = useContext(EventContext)
@@ -65,77 +66,53 @@ export const CartScreen = () => {
 
     return (
         <>
-        <article className="Carts">
-            <div className="cart__head">
-            <header className="events__header">
-                <h1>Dub's Doubles</h1>
-                <h3>A Block Near You</h3>
-            </header>
-            <div className="Cart__description"><strong>Order #:</strong> {cart.id}</div>
-            <div className="Cart__price"><strong>Date:</strong> {cart.created_date}</div>
-            <div className="Cart__price"><strong>Customer:</strong> {`${cart.customer?.user.first_name} ${cart.customer?.user.last_name}`}</div>
-            </div>
-            <TableContainer component={Paper} sx={{ color: "grey"}}>
-                <Table aria-label="spanning table">
-                    <TableHead>
-                    <TableRow>
-                        <TableCell>Item</TableCell>
-                        <TableCell align="right" size="small" sx={{ pl: 0, pr: 0 }}>Topping</TableCell>
-                        <TableCell align="right" size="small" padding="none"></TableCell>
-                        <TableCell align="right">Price</TableCell>
-                    </TableRow>
-                    </TableHead>
-                    <TableBody>
-                    {cart.lineitems?.map(item => {
-                        return <><TableRow key={item.id}>
-                            <TableCell className="combo__name" sx={{ pr: 0, color: "gray"}}>{item.product.name}</TableCell>
-                            <TableCell align="right" size="small" sx={{ pl: 0, pr: 0 }}></TableCell>
-                            <TableCell align="right" size="small" padding="none">
-                                <IconButton aria-label="delete" onClick={() => {handleRemove(item.id)}}>
-                                    <DeleteIcon fontSize="small"/>
-                                </IconButton>
-                            </TableCell>
-                            <TableCell align='right' sx={{ pl: 0}}>${item.product.price === 0 ? item.toppings.forEach(topping => {
-                               item.product.price += topping.price}) : item.product.price}</TableCell>
-                            </TableRow>
-                            {item.toppings.length > 0 ? item.toppings.map(topping => {
-                                return <TableRow>
-                                    <TableCell className="combo__name"></TableCell>
-                                    <TableCell align="right" size="small" padding="none">{topping.name}</TableCell>
-                                    <TableCell align="right">
-                                        <IconButton aria-label="delete" onClick={() => {handleRemoveAddOn(topping.id, item.id)}}>
-                                            <RemoveCircleOutlineIcon fontSize="small"/>
-                                        </IconButton>
-                                    </TableCell>
-                                    <TableCell align='right'>${topping.price}</TableCell>
-                                    </TableRow>
-                            }) : ""}</>
-                    })}
-                    
-                    <TableRow>
-                        <TableCell rowSpan={3} />
-                        <TableCell colSpan={2}>Total</TableCell>
-                        <TableCell align="right">${cart.total}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                        {/* <TableCell rowSpan={3} /> */}
-                        
-                        <TableCell align="right"><Button variant="contained" className="btn btn-3" onClick={() => history.push(`/payment`)}>Payment</Button></TableCell>
-                    </TableRow>
-                    </TableBody>
-                </Table>
-            </TableContainer>     
-            
-        </article>
-        
-        
+            <DataTable>
+                <DataTable.Header>      
+                    <DataTable.Title>Item</DataTable.Title>
+                    <DataTable.Title numeric>Topping</DataTable.Title>
+                    {/* <DataTable.Title></DataTable.Title> */}
+                    <DataTable.Title numeric>Price</DataTable.Title>            
+                </DataTable.Header>
 
-        {/* <button className="btn btn-2 btn-sep icon-create"
-        onClick={() => {
-            history.push("/Carts/new")
-        }}
-    >Register New Cart</button> */}
-</>
+            {cart.lineitems?.map(item => {
+                return <><DataTable.Row>
+                            <DataTable.Cell >{item.product.name}</DataTable.Cell>
+                            {/* <DataTable.Cell ></DataTable.Cell> */}
+                            <DataTable.Cell >
+                                {/* <IconButton aria-label="delete" onClick={() => {handleRemove(item.id)}}>
+                                    <DeleteIcon fontSize="small"/>
+                                </IconButton> */}
+                            </DataTable.Cell>
+                            <DataTable.Cell numeric>${item.product.price === 0 ? item.toppings.forEach(topping => {
+                                item.product.price += topping.price}) : item.product.price}</DataTable.Cell>
+                            </DataTable.Row>
+                            {item.toppings.length > 0 ? item.toppings.map(topping => {
+                                return <DataTable.Row>
+                                    {/* <DataTable.Cell ></DataTable.Cell> */}
+                                    <DataTable.Cell >{topping.name}</DataTable.Cell>
+                                    <DataTable.Cell >
+                                        {/* <IconButton aria-label="delete" onClick={() => {handleRemoveAddOn(topping.id, item.id)}}>
+                                            <RemoveCircleOutlineIcon fontSize="small"/>
+                                        </IconButton> */}
+                                    </DataTable.Cell>
+                                    <DataTable.Cell numeric>${topping.price}</DataTable.Cell>
+                            </DataTable.Row>
+                    }) : null }</>
+            })}
+
+                    <DataTable.Row>
+                        
+                        <DataTable.Cell >Total</DataTable.Cell>
+                        <DataTable.Cell numeric>${cart.total}</DataTable.Cell>
+                    </DataTable.Row>
+                    <DataTable.Row>
+                        
+                        
+                        <DataTable.Cell numeric><Button mode="contained">Payment</Button></DataTable.Cell>
+                    </DataTable.Row>
+                
+            </DataTable>
+        </>
     )
 }
 //----------- Buttons for CART --------------$$$
@@ -201,6 +178,55 @@ export const CartScreen = () => {
 
 
 
+            // <DataTable>
+                
+            //         <DataTable.Header>
+                    
+            //             <DataTable.Title>Item</DataTable.Title>
+            //             <DataTable.Title align="right" size="small" sx={{ pl: 0, pr: 0 }}>Topping</DataTable.Title>
+            //             <DataTable.Title align="right" size="small" padding="none"></DataTable.Title>
+            //             <DataTable.Title align="right">Price</DataTable.Title>
+                    
+            //         </DataTable.Header>
+                    
+                    // {cart.lineitems?.map(item => {
+                    //     return <><DataTable.Row key={item.id}>
+                    //         <DataTable.Cell className="combo__name" sx={{ pr: 0, color: "gray"}}>{item.product.name}</DataTable.Cell>
+                    //         <DataTable.Cell align="right" size="small" sx={{ pl: 0, pr: 0 }}></DataTable.Cell>
+                    //         <DataTable.Cell align="right" size="small" padding="none">
+                    //             {/* <IconButton aria-label="delete" onClick={() => {handleRemove(item.id)}}>
+                    //                 <DeleteIcon fontSize="small"/>
+                    //             </IconButton> */}
+                    //         </DataTable.Cell>
+                    //         <DataTable.Cell align='right' sx={{ pl: 0}}>${item.product.price === 0 ? item.toppings.forEach(topping => {
+                    //            item.product.price += topping.price}) : item.product.price}</DataTable.Cell>
+                    //         </DataTable.Row>
+                    //         {item.toppings.length > 0 ? item.toppings.map(topping => {
+                    //             return <DataTable.Row>
+                    //                 <DataTable.Cell className="combo__name"></DataTable.Cell>
+                    //                 <DataTable.Cell align="right" size="small" padding="none">{topping.name}</DataTable.Cell>
+                    //                 <DataTable.Cell align="right">
+                    //                     {/* <IconButton aria-label="delete" onClick={() => {handleRemoveAddOn(topping.id, item.id)}}>
+                    //                         <RemoveCircleOutlineIcon fontSize="small"/>
+                    //                     </IconButton> */}
+                    //                 </DataTable.Cell>
+                    //                 <DataTable.Cell align='right'>${topping.price}</DataTable.Cell>
+                    //                 </DataTable.Row>
+                    //         }) : ""}</>
+                    // })}
+                    
+                    // <DataTable.Row>
+                    //     <DataTable.Cell rowSpan={3} />
+                    //     <DataTable.Cell colSpan={2}>Total</DataTable.Cell>
+                    //     <DataTable.Cell align="right">${cart.total}</DataTable.Cell>
+                    // </DataTable.Row>
+                    // <DataTable.Row>
+                        
+                        
+                    //     <DataTable.Cell align="right"><Button variant="contained" className="btn btn-3" >Payment</Button></DataTable.Cell>
+                    // </DataTable.Row>
+              
+            // </DataTable>     
 
 
 

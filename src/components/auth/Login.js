@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react"
+import React, { useState, useRef, useContext, useEffect } from "react"
 import { View } from 'react-native'
 import { Link, useHistory } from "react-router-native"
 import * as SecureStore from 'expo-secure-store';
@@ -26,7 +26,7 @@ export const Login = ({ navigation }) => {
     const [ error, setError ] = useState(false)
     const [ email, setEmail ] = useState('')
     const [ password, setPassword ] = useState('')
-    const { setToken } = useContext(CartContext)
+    const { token, setToken } = useContext(CartContext)
 
     const handleSaveToken = async (key, value) => {
         SecureStore.setItemAsync(key, value)
@@ -36,6 +36,10 @@ export const Login = ({ navigation }) => {
         SecureStore.setItemAsync(key, value)
         
       }
+
+    useEffect(() => {
+        token !== null ? navigation.navigate("Home") : null
+    }, [])
 
     const handleLogin = (e) => {
         e.preventDefault()

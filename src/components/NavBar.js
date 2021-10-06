@@ -50,18 +50,21 @@ const MyComponent = ({navigation, back}) => {
           <Badge
             visible={true}
             size={20}
-            style={{ position: 'absolute', top: 5, right: 5 }}
+            style={{ position: 'absolute', top: 5, right: 5, zIndex: 1 }}
+            
           >
             {cart.lineitems?.length}
           </Badge>
           <Appbar.Action
             icon={cart.lineitems?.length > 0 ? 'cart' : ''}
+            color="white"
+            size={30}
             accessibilityLabel="TagChat"
             onPress={() => navigation.navigate("Cart")}
           />
       </View> : null }
 
-      <Menu
+      { token !== null ? <Menu
           visible={visible}
           onDismiss={closeMenu}
           anchor={
@@ -75,7 +78,7 @@ const MyComponent = ({navigation, back}) => {
                                 
                               }} 
                       title="LogOut" />
-        </Menu>
+        </Menu> : null }
     </Appbar.Header>
   );
 };
