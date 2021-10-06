@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react"
 import * as SecureStore from 'expo-secure-store';
-import { LineItemContext } from "./LineItemProvider";
+
 
 export const CartContext = React.createContext()
 
@@ -89,7 +89,7 @@ export const CartProvider = (props) => {
     
 
     return (
-        <CartContext.Provider value={{ carts, cart, setCart, getCart, createCart, updateCart, getCarts }} >
+        <CartContext.Provider value={{ token, setToken, carts, cart, setCart, getCart, createCart, updateCart, getCarts }} >
             { props.children }
         </CartContext.Provider>
 

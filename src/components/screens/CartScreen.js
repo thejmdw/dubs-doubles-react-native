@@ -1,22 +1,22 @@
 import React, { useContext, useEffect, useState } from "react"
 import { CartContext } from "../providers/CartProvider.js"
-import { LineItemContext } from "../lineitem/LineItemProvider.js"
+import { LineItemContext } from "../providers/LineItemProvider.js"
 // import { EventContext } from "./EventProvider.js"
-import { useHistory, useParams } from "react-router-dom"
-import "./Cart.css"
-import IconButton from '@mui/material/IconButton';
-import Button from '@mui/material/Button';
-import DeleteIcon from '@mui/icons-material/Delete';
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+// import { useHistory, useParams } from "react-router-dom"
+// import "./Cart.css"
+// import IconButton from '@mui/material/IconButton';
+// import Button from '@mui/material/Button';
+// import DeleteIcon from '@mui/icons-material/Delete';
+// import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+// import Table from '@mui/material/Table';
+// import TableBody from '@mui/material/TableBody';
+// import TableCell from '@mui/material/TableCell';
+// import TableContainer from '@mui/material/TableContainer';
+// import TableHead from '@mui/material/TableHead';
+// import TableRow from '@mui/material/TableRow';
+// import Paper from '@mui/material/Paper';
 
-export const Cart = () => {
+export const CartScreen = () => {
     const history = useHistory()
     const { cart, getCart } = useContext(CartContext)
     const { createLineItem, deleteLineItem, deleteLineItemTopping, lineItemToppingObjs, getLineItemToppings } = useContext(LineItemContext)

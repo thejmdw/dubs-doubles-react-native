@@ -1,14 +1,13 @@
-import React, { useState, useRef } from "react"
+import React, { useState, useRef, useContext } from "react"
 import { View } from 'react-native'
 import { Link, useHistory } from "react-router-native"
 import * as SecureStore from 'expo-secure-store';
 import { TextInput, Title, Text, Button } from 'react-native-paper'
+import { CartContext } from "../providers/CartProvider"
 // import "./Auth.css"
 // import TextField from '@mui/material/TextField';
 // import Button from '@mui/material/Button';
-async function save(key, value) {
-    await SecureStore.setItemAsync(key, value);
-  }
+
 
 async function getValueFor(key) {
     let result = await SecureStore.getItemAsync(key);
@@ -27,6 +26,16 @@ export const Login = ({ navigation }) => {
     const [ error, setError ] = useState(false)
     const [ email, setEmail ] = useState('')
     const [ password, setPassword ] = useState('')
+    const { setToken } = useContext(CartContext)
+
+    const handleSaveToken = async (key, value) => {
+        SecureStore.setItemAsync(key, value)
+        .then(setToken(value))
+      }
+    const handleSaveStaff = async (key, value) => {
+        SecureStore.setItemAsync(key, value)
+        
+      }
 
     const handleLogin = (e) => {
         e.preventDefault()
@@ -45,8 +54,8 @@ export const Login = ({ navigation }) => {
             .then(res => res.json())
             .then(res => {
                 if ("valid" in res && res.valid && "token" in res) {
-                    save( "dd_token", res.token );
-                    save( "is_staff", res.is_staff.toString() );
+                    handleSaveToken( "dd_token", res.token );
+                    handleSaveStaff( "is_staff", res.is_staff.toString() );
                     // getValueFor("is_staff")
                     res.is_staff === true ? navigation.navigate('Home') : navigation.navigate('Home');
                 }
