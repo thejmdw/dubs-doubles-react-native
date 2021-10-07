@@ -13,9 +13,6 @@ import Typography from '@mui/material/Typography';
 export const PaymentList = () => {
     const history = useHistory()
     const { payments, getPayments, getPaymentById, setCartPayment, deletePayment } = useContext(PaymentContext)
-    // const { events, getEvents } = useContext(EventContext)
-
-    
 
     useEffect(() => {
         getPayments()
