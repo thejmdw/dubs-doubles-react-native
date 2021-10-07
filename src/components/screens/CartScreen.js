@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react"
 import { CartContext } from "../providers/CartProvider.js"
 import { LineItemContext } from "../providers/LineItemProvider.js"
 import { DataTable, Button } from "react-native-paper"
+import { ScrollView } from "react-native"
 // import { EventContext } from "./EventProvider.js"
 // import { useHistory, useParams } from "react-router-dom"
 // import "./Cart.css"
@@ -47,7 +48,7 @@ export const CartScreen = () => {
 
     const handleRemove = (id) => {
         deleteLineItem(id)
-        .then(setLineItems)
+        .then(() => {getCart()})
         setCartTotal()
       }
     const handleRemoveAddOn = (topID, itemID) => {
@@ -65,7 +66,7 @@ export const CartScreen = () => {
 
 
     return (
-        <>
+        <ScrollView>
             <DataTable>
                 <DataTable.Header>      
                     <DataTable.Title>Item</DataTable.Title>
@@ -78,7 +79,8 @@ export const CartScreen = () => {
                 return <><DataTable.Row>
                             <DataTable.Cell >{item.product.name}</DataTable.Cell>
                             {/* <DataTable.Cell ></DataTable.Cell> */}
-                            <DataTable.Cell >
+                            <DataTable.Cell numeric>
+                                <Button icon="trash-can" onPress={() => handleRemove(item.id)}/>
                                 {/* <IconButton aria-label="delete" onClick={() => {handleRemove(item.id)}}>
                                     <DeleteIcon fontSize="small"/>
                                 </IconButton> */}
@@ -91,9 +93,7 @@ export const CartScreen = () => {
                                     {/* <DataTable.Cell ></DataTable.Cell> */}
                                     <DataTable.Cell >{topping.name}</DataTable.Cell>
                                     <DataTable.Cell >
-                                        {/* <IconButton aria-label="delete" onClick={() => {handleRemoveAddOn(topping.id, item.id)}}>
-                                            <RemoveCircleOutlineIcon fontSize="small"/>
-                                        </IconButton> */}
+                                        <Button icon="close-circle"/>
                                     </DataTable.Cell>
                                     <DataTable.Cell numeric>${topping.price}</DataTable.Cell>
                             </DataTable.Row>
@@ -112,7 +112,7 @@ export const CartScreen = () => {
                     </DataTable.Row>
                 
             </DataTable>
-        </>
+        </ScrollView>
     )
 }
 //----------- Buttons for CART --------------$$$

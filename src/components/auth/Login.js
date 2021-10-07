@@ -37,9 +37,9 @@ export const Login = ({ navigation }) => {
         
       }
 
-    useEffect(() => {
-        token !== null ? navigation.navigate("Home") : null
-    }, [])
+    // useEffect(() => {
+    //     token !== null ? navigation.navigate("Home") : null
+    // }, [])
 
     const handleLogin = (e) => {
         e.preventDefault()

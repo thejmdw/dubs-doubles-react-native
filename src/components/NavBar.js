@@ -14,7 +14,7 @@ const MyComponent = ({navigation, back}) => {
 
     useEffect(() => {
         getCart()
-        console.log("TOKEN", token)
+        // console.log("TOKEN", token)
     }, [token])
 
   const _goBack = () => navigation.goBack;
@@ -32,7 +32,7 @@ const MyComponent = ({navigation, back}) => {
     await SecureStore.deleteItemAsync(key)
     setToken("")
     navigation.navigate("Login")
-    console.log(token)
+    // console.log(token)
   }
 
   const _handleMore = () => console.log('Shown more');

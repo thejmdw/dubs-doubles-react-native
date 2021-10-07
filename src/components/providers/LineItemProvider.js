@@ -60,7 +60,12 @@ export const LineItemProvider = (props) => {
             body: JSON.stringify(id)
          })
             .then(getCart)
+            .catch((error)=>{
+                console.log("Api call error");
+                // alert(error.message);
+             });
     }
+
     const deleteLineItemTopping = (id) => {
         const handleSetToken = async () => {
             SecureStore.getItemAsync("dd_token")
@@ -76,7 +81,7 @@ export const LineItemProvider = (props) => {
             body: JSON.stringify(id)
          })
             // .then(setLineItem(productId))
-            // .then()
+            // .then(getLineItems)
     }
     
     const updateLineItem = (LineItem) => {
