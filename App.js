@@ -16,7 +16,10 @@ import { BurgerProvider } from './src/components/providers/BurgerProvider';
 import { FriesProvider } from './src/components/providers/FriesProvider';
 import { CartProvider } from './src/components/providers/CartProvider';
 import { LineItemProvider } from './src/components/providers/LineItemProvider';
+import { PaymentProvider } from './src/components/providers/PaymentProvider';
+
 import * as SecureStore from 'expo-secure-store';
+import { PaymentScreen } from './src/components/screens/PaymentScreen';
 
 const Stack = createNativeStackNavigator()
 // const Stack = createStackNavigator()
@@ -36,6 +39,7 @@ export default function App() {
 
   return (
     <PaperProvider>
+        <PaymentProvider>
       <CartProvider>
         <BurgerProvider>
           <FriesProvider>
@@ -63,6 +67,9 @@ export default function App() {
                   <Stack.Screen 
                     name="Cart" 
                     component={CartScreen} />
+                  <Stack.Screen
+                    name="Payment"
+                    component={PaymentScreen} />
                 
                 </Stack.Navigator>
               </NavigationContainer>
@@ -70,6 +77,7 @@ export default function App() {
           </FriesProvider>
         </BurgerProvider>
       </CartProvider>
+        </PaymentProvider>
     </PaperProvider>
   );
 }

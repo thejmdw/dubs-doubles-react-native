@@ -1,70 +1,70 @@
-import React, { useContext, useEffect } from "react"
-import { PaymentContext } from "./PaymentProvider.js"
-// import { EventContext } from "./EventProvider.js"
-import { useHistory } from "react-router-dom"
-import "./Cart.css"
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import React, { useContext, useEffect, useState } from "react"
+import { PaymentContext } from "../providers/PaymentProvider.js"
+import { Button, Title, Card } from 'react-native-paper'
+import * as SecureStore from 'expo-secure-store';
 
-export const PaymentList = () => {
-    const history = useHistory()
-    const { payments, getPayments, getPaymentById, setCartPayment, deletePayment } = useContext(PaymentContext)
 
+export const PaymentScreen = () => {
+    // const history = useHistory()
+    const { payments, getPayments, getPaymentById, setCartPayment} = useContext(PaymentContext)
+    // const [ token, setToken ] = useState("")
+    // const [ payments, setPayments ] = useState([])
     useEffect(() => {
-        getPayments()
-        // getEvents()
+      SecureStore.getItemAsync("dd_token")
+      .then(token => {
+        // setToken(token)
+        getPayments(token)
+        })
     }, [])
+    
+    // useEffect(() => {
+    //   getPayments(token)
+    //   .then(() => setPayments(token))
+    // }, [])
 
     const handlePaymentClick = (id) => {
         // localStorage.setItem('token', id)
         setCartPayment(id)
-        history.push(`/checkout`)
+        // history.push(`/checkout`)
       }
     const handlePaymentDelete = (id) => {
         // localStorage.setItem('token', id)
         deletePayment(id)
-        .then(getPayments)
+        .then(() => getPayments(token))
         // history.push(`/checkout`)
       }
 
     return (
         <>
-          <article className="Payment">
-            <header className="events__header">
-                <h1>Payments</h1>
-            </header>
+          
             <Button variant="contained" 
                     className="btn btn-2 btn-sep icon-create"
-                    onClick={() => { history.push("/payment/new")}}
+                    
             >Add Card</Button>
             {
-              payments.map(payment => {
+              payments?.map(payment => {
                   return <Card className="paymentCard" >
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
+                  <Card.Content>
+                    <Title gutterBottom variant="h5" component="div">
                       {payment.merchant_name}
-                    </Typography>
-                    <Typography variant="h6" color="text.secondary">
+                    </Title>
+                    <Title variant="h6" color="text.secondary">
                       ************{payment.account_number.slice(-4)}
-                    </Typography>
-                    <Typography variant="h6" color="text.secondary">
+                    </Title>
+                    <Title variant="h6" color="text.secondary">
                       {payment.expiration_date}
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
+                    </Title>
+                  </Card.Content>
+                  <Card.Actions>
                     <Button variant="contained" 
-                            onClick={() => {handlePaymentClick(payment.id)}}
+                            onPress={() => {handlePaymentClick(payment.id)}}
                     >Select This Card</Button>
                     {/* <Button variant="contained" onClick={() => {handlePaymentDelete(payment.id)}} color="error">Delete</Button> */}
-                  </CardActions>
+                  </Card.Actions>
                 </Card>
               })
             }
-          </article>
+          
         </>
     )
 }
