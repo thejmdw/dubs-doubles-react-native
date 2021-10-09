@@ -4,7 +4,7 @@ import { Button, Title, Card } from 'react-native-paper'
 import * as SecureStore from 'expo-secure-store';
 
 
-export const PaymentScreen = () => {
+export const PaymentScreen = ({navigation}) => {
     // const history = useHistory()
     const { payments, getPayments, getPaymentById, setCartPayment} = useContext(PaymentContext)
     // const [ token, setToken ] = useState("")
@@ -25,7 +25,7 @@ export const PaymentScreen = () => {
     const handlePaymentClick = (id) => {
         // localStorage.setItem('token', id)
         setCartPayment(id)
-        // history.push(`/checkout`)
+        navigation.navigate("Checkout")
       }
     const handlePaymentDelete = (id) => {
         // localStorage.setItem('token', id)
@@ -37,13 +37,9 @@ export const PaymentScreen = () => {
     return (
         <>
           
-            <Button variant="contained" 
-                    className="btn btn-2 btn-sep icon-create"
-                    
-            >Add Card</Button>
             {
               payments?.map(payment => {
-                  return <Card className="paymentCard" >
+                return <Card className="paymentCard" >
                   <Card.Content>
                     <Title gutterBottom variant="h5" component="div">
                       {payment.merchant_name}
@@ -56,7 +52,7 @@ export const PaymentScreen = () => {
                     </Title>
                   </Card.Content>
                   <Card.Actions>
-                    <Button variant="contained" 
+                    <Button mode="contained" 
                             onPress={() => {handlePaymentClick(payment.id)}}
                     >Select This Card</Button>
                     {/* <Button variant="contained" onClick={() => {handlePaymentDelete(payment.id)}} color="error">Delete</Button> */}
@@ -65,6 +61,10 @@ export const PaymentScreen = () => {
               })
             }
           
+            <Button variant="contained" 
+                    className="btn btn-2 btn-sep icon-create"
+                    
+            >Add Card</Button>
         </>
     )
 }

@@ -20,6 +20,7 @@ import { PaymentProvider } from './src/components/providers/PaymentProvider';
 
 import * as SecureStore from 'expo-secure-store';
 import { PaymentScreen } from './src/components/screens/PaymentScreen';
+import { CheckoutScreen } from "./src/components/screens/CheckoutScreen"
 
 const Stack = createNativeStackNavigator()
 // const Stack = createStackNavigator()
@@ -70,6 +71,9 @@ export default function App() {
                   <Stack.Screen
                     name="Payment"
                     component={PaymentScreen} />
+                  <Stack.Screen
+                    name="Checkout"
+                    component={CheckoutScreen} />
                 
                 </Stack.Navigator>
               </NavigationContainer>

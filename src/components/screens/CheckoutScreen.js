@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useState } from "react"
 import { CartContext } from "../providers/CartProvider.js"
-import { LineItemContext } from "../providers/LineItemProvider.js"
-import { DataTable, Button } from "react-native-paper"
+import { PaymentContext } from "../providers/PaymentProvider.js"
+import { DataTable, Button, Modal, Text, Portal } from "react-native-paper"
 import { ScrollView } from "react-native"
-import { NavigationContainer } from "@react-navigation/native"
 // import { EventContext } from "./EventProvider.js"
 // import { useHistory, useParams } from "react-router-dom"
 // import "./Cart.css"
@@ -19,44 +18,31 @@ import { NavigationContainer } from "@react-navigation/native"
 // import TableRow from '@mui/material/TableRow';
 // import Paper from '@mui/material/Paper';
 
-export const CartScreen = ({navigation}) => {
+export const CheckoutScreen = ({navigation}) => {
     // const history = useHistory()
-    const { cart, getCart } = useContext(CartContext)
-    const { createLineItem, deleteLineItem, deleteLineItemTopping, lineItemToppingObjs, getLineItemToppings } = useContext(LineItemContext)
-    // const { events, getEvents } = useContext(EventContext)
-    // const { CartId } = useParams()
+    const { cart, getCart, updateCart } = useContext(CartContext)
+    const { cartPayment, setCartPayment } = useContext(PaymentContext)
 
-    // const { Cart, setCart } = useState({})
     const [lineItems, setLineItems] = useState()
     const [lineItemToppings, setLineItemToppings] = useState()
-
     const [ cartTotal, setCartTotal] = useState(0)
+    const [ cartId, setCartId] = useState(0)
+    const [ visible, setVisible ] = useState(false)
 
     useEffect(() => {
         getCart()
-        getLineItemToppings()
+        // getLineItemToppings()
     }, [])
     
     useEffect(() => {
         getCart()
-        getLineItemToppings()
+        // getLineItemToppings()
     }, [lineItems])
 
     useEffect(() => {
         getCart()
-        getLineItemToppings()
+        // getLineItemToppings()
     }, [lineItemToppings])
-
-    const handleRemove = (id) => {
-        deleteLineItem(id)
-        .then(() => {getCart()})
-        setCartTotal()
-      }
-    const handleRemoveAddOn = (topID, itemID) => {
-        const found = lineItemToppingObjs.find(lit => lit.line_item_id === itemID && lit.topping_id === topID)
-        deleteLineItemTopping(found.id)
-        .then(setLineItemToppings)
-      }
     
     useEffect(() => {
         let total = 0
@@ -65,9 +51,30 @@ export const CartScreen = ({navigation}) => {
         getCart()
     }, [lineItems])
 
+    const handleUpdate = () => {
+        const finalCart = {...cart}
+        finalCart.payment_type = cartPayment
+        setCartTotal(0)
+        setCartPayment(0)
+        setCartId(finalCart.id)
+        updateCart(finalCart)
+        .then(() => showModal())
+      }
+
+    const showModal = () => setVisible(true);
+    const hideModal = () => {
+                            setVisible(false)
+                            navigation.navigate("Home")
+                            }
+    const containerStyle = {backgroundColor: 'white', padding: 20};
 
     return (
         <ScrollView>
+            <Portal>
+            <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
+                <Text>Order #{cartId} Confirmed</Text>
+            </Modal>
+            </Portal>
             <DataTable>
                 <DataTable.Header>      
                     <DataTable.Title>Item</DataTable.Title>
@@ -81,7 +88,7 @@ export const CartScreen = ({navigation}) => {
                             <DataTable.Cell >{item.product.name}</DataTable.Cell>
                             {/* <DataTable.Cell ></DataTable.Cell> */}
                             <DataTable.Cell numeric>
-                                <Button icon="trash-can" onPress={() => handleRemove(item.id)}/>
+                                {/* <Button icon="trash-can" onPress={() => handleRemove(item.id)}/> */}
                                 {/* <IconButton aria-label="delete" onClick={() => {handleRemove(item.id)}}>
                                     <DeleteIcon fontSize="small"/>
                                 </IconButton> */}
@@ -94,7 +101,7 @@ export const CartScreen = ({navigation}) => {
                                     {/* <DataTable.Cell ></DataTable.Cell> */}
                                     <DataTable.Cell >{topping.name}</DataTable.Cell>
                                     <DataTable.Cell >
-                                        <Button icon="close-circle"/>
+                                        {/* <Button icon="close-circle"/> */}
                                     </DataTable.Cell>
                                     <DataTable.Cell numeric>${topping.price}</DataTable.Cell>
                             </DataTable.Row>
@@ -109,7 +116,7 @@ export const CartScreen = ({navigation}) => {
                     <DataTable.Row>
                         
                         
-                        <DataTable.Cell numeric><Button mode="contained" onPress={() => navigation.navigate("Payment")}>Payment</Button></DataTable.Cell>
+                        <DataTable.Cell numeric><Button mode="contained" onPress={() => {handleUpdate(cart.id)}}>Place Order</Button></DataTable.Cell>
                     </DataTable.Row>
                 
             </DataTable>
