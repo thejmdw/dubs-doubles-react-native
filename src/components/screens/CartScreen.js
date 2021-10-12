@@ -3,7 +3,6 @@ import { CartContext } from "../providers/CartProvider.js"
 import { LineItemContext } from "../providers/LineItemProvider.js"
 import { DataTable, Button } from "react-native-paper"
 import { ScrollView } from "react-native"
-import { NavigationContainer } from "@react-navigation/native"
 // import { EventContext } from "./EventProvider.js"
 // import { useHistory, useParams } from "react-router-dom"
 // import "./Cart.css"
@@ -67,6 +66,7 @@ export const CartScreen = ({navigation}) => {
 
 
     return (
+        <>
         <ScrollView>
             <DataTable>
                 <DataTable.Header>      
@@ -76,8 +76,8 @@ export const CartScreen = ({navigation}) => {
                     <DataTable.Title numeric>Price</DataTable.Title>            
                 </DataTable.Header>
 
-            {cart.lineitems?.map(item => {
-                return <><DataTable.Row>
+            {cart.lineitems?.map((item, index) => {
+                return <><DataTable.Row key={index }>
                             <DataTable.Cell >{item.product.name}</DataTable.Cell>
                             {/* <DataTable.Cell ></DataTable.Cell> */}
                             <DataTable.Cell numeric>
@@ -114,6 +114,7 @@ export const CartScreen = ({navigation}) => {
                 
             </DataTable>
         </ScrollView>
+        </>
     )
 }
 //----------- Buttons for CART --------------$$$

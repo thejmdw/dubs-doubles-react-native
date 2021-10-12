@@ -39,13 +39,13 @@ export const PaymentScreen = ({navigation}) => {
           
             {
               payments?.map(payment => {
-                return <Card className="paymentCard" >
+                return <Card className="paymentCard" key={payment.id}>
                   <Card.Content>
                     <Title gutterBottom variant="h5" component="div">
                       {payment.merchant_name}
                     </Title>
                     <Title variant="h6" color="text.secondary">
-                      ************{payment.account_number.slice(-4)}
+                      **** **** **** {payment.account_number.slice(-4)}
                     </Title>
                     <Title variant="h6" color="text.secondary">
                       {payment.expiration_date}

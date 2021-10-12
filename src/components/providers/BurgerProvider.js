@@ -34,7 +34,10 @@ export const BurgerProvider = (props) => {
             body: JSON.stringify(burger)
          })
             .then(setBurger(burger))
-            // .then()
+            .catch((error)=>{
+                console.log("Api call error");
+                // alert(error.message);
+             });
     }
     
     const updateBurger = (Burger) => {
@@ -52,7 +55,10 @@ export const BurgerProvider = (props) => {
             body: JSON.stringify(Burger)
          })
             .then(setBurger(Burger))
-            // .then()
+            .catch((error)=>{
+                console.log("Api call error");
+                // alert(error.message);
+             });
     }
     
     const getBurgerById = (id) => {
@@ -68,6 +74,10 @@ export const BurgerProvider = (props) => {
         })
             .then(response => response.json())
             .then(setBurger)
+            .catch((error)=>{
+                console.log("Api call error");
+                // alert(error.message);
+             });
     }
 
     const getBurgers = () => {
@@ -83,6 +93,10 @@ export const BurgerProvider = (props) => {
         })
             .then(response => response.json())
             .then(setBurgers)
+            .catch((error)=>{
+                console.log("Api call error");
+                // alert(error.message);
+             });
     }
     
     const getToppingTypes = () => {
@@ -98,6 +112,10 @@ export const BurgerProvider = (props) => {
         })
             .then(response => response.json())
             .then(setToppingTypes)
+            .catch((error)=>{
+                console.log("Api call error");
+                // alert(error.message);
+             });
     }
 
     const getToppings = () => {
@@ -113,6 +131,10 @@ export const BurgerProvider = (props) => {
         })
             .then(response => response.json())
             .then(setToppings)
+            .catch((error)=>{
+                console.log("Api call error");
+                // alert(error.message);
+             });
     }
     const getToppingsByType = (id) => {
         const handleSetToken = async () => {
@@ -127,6 +149,10 @@ export const BurgerProvider = (props) => {
         })
             .then(response => response.json())
             .then(setToppings)
+            .catch((error)=>{
+                console.log("Api call error");
+                // alert(error.message);
+             });
     }
     
     return (

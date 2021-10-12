@@ -15,7 +15,14 @@ const MyComponent = ({navigation, back}) => {
     useEffect(() => {
         getCart()
         // console.log("TOKEN", token)
+    }, [])
+
+    useEffect(() => {
+        getCart()
+        // console.log("TOKEN", token)
     }, [token])
+
+    
 
   const _goBack = () => navigation.goBack;
 

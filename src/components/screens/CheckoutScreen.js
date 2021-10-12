@@ -58,13 +58,14 @@ export const CheckoutScreen = ({navigation}) => {
         setCartPayment(0)
         setCartId(finalCart.id)
         updateCart(finalCart)
-        .then(() => showModal())
+        showModal()
       }
 
     const showModal = () => setVisible(true);
     const hideModal = () => {
                             setVisible(false)
                             navigation.navigate("Home")
+                            getCart()
                             }
     const containerStyle = {backgroundColor: 'white', padding: 20};
 
@@ -83,8 +84,8 @@ export const CheckoutScreen = ({navigation}) => {
                     <DataTable.Title numeric>Price</DataTable.Title>            
                 </DataTable.Header>
 
-            {cart.lineitems?.map(item => {
-                return <><DataTable.Row>
+            {cart.lineitems?.map((item, index) => {
+                return <><DataTable.Row key={index}>
                             <DataTable.Cell >{item.product.name}</DataTable.Cell>
                             {/* <DataTable.Cell ></DataTable.Cell> */}
                             <DataTable.Cell numeric>

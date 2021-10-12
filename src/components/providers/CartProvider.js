@@ -52,6 +52,10 @@ export const CartProvider = (props) => {
          })
             .then(setCart(cart))
             .then(getCart)
+            .catch((error)=>{
+                console.log("Api call error");
+                // alert(error.message);
+             });
     }
     
     const getCart = () => {
@@ -68,6 +72,10 @@ export const CartProvider = (props) => {
         })
             .then(response => response.json())
             .then(setCart)
+            .catch((error)=>{
+                console.log("Api call error");
+                // alert(error.message);
+             });
     }
 
     const getCarts = () => {
@@ -83,6 +91,10 @@ export const CartProvider = (props) => {
         })
             .then(response => response.json())
             .then(setCarts)
+            .catch((error)=>{
+                console.log("Api call error");
+                // alert(error.message);
+             });
     }
     
  

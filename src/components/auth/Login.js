@@ -68,6 +68,10 @@ export const Login = ({ navigation }) => {
                     // invalidDialog.current.showModal()
                 }
             })
+            .catch((error)=>{
+                console.log("Api call error");
+                // alert(error.message);
+             })
     }
 
     return (

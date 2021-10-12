@@ -24,6 +24,10 @@ export const PaymentProvider = (props) => {
             body: JSON.stringify(payment)
          })
             .then(setPayment(payment))
+            .catch((error)=>{
+                console.log("Api call error");
+                // alert(error.message);
+             });
             // .then()
     }
     
@@ -40,6 +44,10 @@ export const PaymentProvider = (props) => {
         })
             .then(response => response.json())
             .then(setPayments)
+            .catch((error)=>{
+                console.log("Api call error");
+                // alert(error.message);
+             });
             
     }
 

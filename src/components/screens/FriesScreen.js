@@ -13,7 +13,14 @@ export const FriesScreen = () => {
 
   useEffect(() => {
     getFries()
-}, [])
+  }, [])
+
+  const handleAddClick = (id) => {
+    const product = {
+        product_id: id
+    }
+    createLineItem(product)
+  }
 
   return (
     // <fryProvider>
@@ -36,7 +43,7 @@ export const FriesScreen = () => {
                     </Card.Content>
                     <Card.Actions>
                       {/* <Button size="large">{fry.price}</Button> */}
-                      <Button mode="contained" >Add to Cart</Button>
+                      <Button mode="contained" onPress={() => handleAddClick(fry.id)}>Add to Cart</Button>
                     </Card.Actions>
                   </Card>
                 })

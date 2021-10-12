@@ -32,6 +32,10 @@ export const FriesProvider = (props) => {
             body: JSON.stringify(fry)
          })
             .then(setFry(fry))
+            .catch((error)=>{
+                console.log("Api call error");
+                // alert(error.message);
+             });
             // .then()
     }
     
@@ -50,6 +54,10 @@ export const FriesProvider = (props) => {
             body: JSON.stringify(fry)
          })
             .then(setFry(fry))
+            .catch((error)=>{
+                console.log("Api call error");
+                // alert(error.message);
+             });
             // .then()
     }
     
@@ -66,6 +74,10 @@ export const FriesProvider = (props) => {
         })
             .then(response => response.json())
             .then(setFry)
+            .catch((error)=>{
+                console.log("Api call error");
+                // alert(error.message);
+             });
     }
 
     const getFries = () => {
@@ -81,6 +93,10 @@ export const FriesProvider = (props) => {
         })
             .then(response => response.json())
             .then(setFries)
+            .catch((error)=>{
+                console.log("Api call error");
+                // alert(error.message);
+             });
     }
     
     // const getfrieTypes = () => {

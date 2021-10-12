@@ -43,6 +43,10 @@ export const LineItemProvider = (props) => {
          })
             // .then(setLineItem(productId))
             .then(getCart)
+            .catch((error)=>{
+                console.log("Api call error");
+                // alert(error.message);
+             });
     }
     
     const deleteLineItem = (id) => {
@@ -80,6 +84,7 @@ export const LineItemProvider = (props) => {
             },
             body: JSON.stringify(id)
          })
+         
             // .then(setLineItem(productId))
             // .then(getLineItems)
     }
@@ -99,6 +104,10 @@ export const LineItemProvider = (props) => {
             body: JSON.stringify(LineItem)
          })
             .then(setLineItem(LineItem))
+            .catch((error)=>{
+                console.log("Api call error");
+                // alert(error.message);
+             });
             // .then()
     }
     
@@ -115,6 +124,10 @@ export const LineItemProvider = (props) => {
         })
             .then(response => response.json())
             .then(setLineItem)
+            .catch((error)=>{
+                console.log("Api call error");
+                // alert(error.message);
+             });
     }
 
     const getLineItems = () => {
@@ -130,6 +143,10 @@ export const LineItemProvider = (props) => {
         })
             .then(response => response.json())
             .then(setLineItems)
+            .catch((error)=>{
+                console.log("Api call error");
+                // alert(error.message);
+             });
     }
 
     const getLineItemToppings = () => {
@@ -145,6 +162,10 @@ export const LineItemProvider = (props) => {
         })
             .then(response => response.json())
             .then(setLineItemToppingObjs)
+            .catch((error)=>{
+                console.log("Api call error");
+                // alert(error.message);
+             });
     }
     
     // const getLineItemTypes = () => {
